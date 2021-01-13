@@ -75,7 +75,14 @@ The data is obtained programmatically using Kaggle's API hosted in the shell scr
 These 2 steps brings the total number of columns in this dataset to 66.
 
 ## Automated ML
-*TODO*: Give an overview of the `automl` settings and configuration you used for this experiment
+
+Specifically,
+
+* `iteration_timeout_minutes` and `experiment_timeout_minutes` both controls the length of time taking to find the best model. As models found in general are very similar in performances, setting these 2 parameters to a reasonable amount will help us getting uncessary costs
+* `primary_metric` set to "AUC_weighted" allows the model to adjust for imbalance in the dataset (though there is very little) and reflect the true performance for the model
+* `featurization` set to "auto" for autoML to decide what features to generate
+* `verbosity` set to "logging.INFO" for autoML to save all the execution related logs to the workspace for debugging purposes
+* `n_cross_validations` set to 5 for autoML to test performances across 5 different folds to make the performance measure more robust
 
 ### Results
 *TODO*: What are the results you got with your automated ML model? What were the parameters of the model? How could you have improved it?
@@ -83,7 +90,22 @@ These 2 steps brings the total number of columns in this dataset to 66.
 *TODO* Remeber to provide screenshots of the `RunDetails` widget as well as a screenshot of the best model trained with it's parameters.
 
 ## Hyperparameter Tuning
-*TODO*: What kind of model did you choose for this experiment and why? Give an overview of the types of parameters and their ranges used for the hyperparameter search
+
+The model used to solve this problem will be LightGBM, it's a gradient boosting framework that uses tree based learning algorithms, designed for better speed, accuracy and volumne. Normally non-linear problems will yield fantanstic performances using LightGBM. Parameters tuned in the model controls different aspects of the model, for more information about the parameters visit [here](https://lightgbm.readthedocs.io/en/latest/Parameters-Tuning.html). Specifically,
+
+* `max_depth`, `max_bin` and `num_leaves` controls the complexities of the trees built by the model. The lower these values are, the faster the model will be completing its training process
+* `learning_rate` contorls the accuracy of the model, but could potentially lead to longer training time and overfitting, the lower this value is, the more accurate the model will be (more likely to overfit as well)
+* `boosting` controls the boosting methods the model used during its training, choices are ["gbdt", "rf", "dart", "goss"]
+* `lambda_l1` and `lambda_l2` controls the regularizations (l1 and l2 respectively) of the model, which reduces overfitting effect, but might lead to lower accuracies. The higher these values are, the less likely the model will be prone to overfitting, but too high values could lead to lower performances
+* `path_smooth` controls smoothing applied to tree nodes, which helps prevent overfitting on leaves with few samples. The lower this value is, the less smoothing is applied
+
+Using an early stopping policy allow us to cancel the runs that are using hyperparameters that lead to really bad performances. This will save us valuable runtime and computing resources to avoid paying for runs we would not use. The early termination policy used here is Bandit Policy. Bandit is an early termination policy based on slack factor/slack amount and evaluation interval. The policy early terminates any runs where the primary metric is not within the specified slack factor/slack amount with respect to the best performing training run.
+
+Additional hyperdrive config settings are, 
+
+* To match up the metric with the autoML experiment, the primary parameter is set to "AUC_weighted"
+* Higher AUC values indicate better performances, the primary metric goal is set to "maximize"
+* `max_total_runs` and `max_concurrent_runs` controls the training speed and cocurrency. `BayesianParameterSampling` requires at least 160 runs to get the best results, therefore 160 runs is the minimum value to execute the experiment as fast and accuracte as possible. Higher cocurrency will also lead to faster completion for the experiment as well.
 
 
 ### Results
