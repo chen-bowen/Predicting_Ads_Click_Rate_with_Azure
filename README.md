@@ -76,7 +76,21 @@ These 2 steps brings the total number of columns in this dataset to 66.
 
 ## Automated ML
 
-Specifically,
+General steps for creating the autoML experiment
+
+1. Create Cluster
+2. Download data
+3. Click history generation
+4. Register data
+5. Configure autoML experiment
+6. Submit autoML for execution
+7. Register the best performing model
+
+Visual diagram is shown below
+
+<img src="images/AutoML.png">
+
+When configuring the autoML experiment, parameters are chosen to be more restrictive on the length of the training process in order to prevent us from getting any unecessary costs. Specifically,
 
 * `iteration_timeout_minutes` and `experiment_timeout_minutes` both controls the length of time taking to find the best model. As models found in general are very similar in performances, setting these 2 parameters to a reasonable amount will help us getting uncessary costs
 * `primary_metric` set to "AUC_weighted" allows the model to adjust for imbalance in the dataset (though there is very little) and reflect the true performance for the model
@@ -90,6 +104,21 @@ Specifically,
 *TODO* Remeber to provide screenshots of the `RunDetails` widget as well as a screenshot of the best model trained with it's parameters.
 
 ## Hyperparameter Tuning
+
+Steps for creating hyperdrive experiment
+
+1. Create Cluster
+2. Download data
+3. Click history generation
+4. Register data
+5. Build `train.py` entry point for hyperdrive
+6. Define hyperdrive config object, using `train.py` as entry point
+7. Submit hyperdrive for execution
+8. Register the best performing model
+
+visual diagram of the process is shown below
+
+<img src="images/hyperdrive_diagram.png">
 
 The model used to solve this problem will be LightGBM, it's a gradient boosting framework that uses tree based learning algorithms, designed for better speed, accuracy and volumne. Normally non-linear problems will yield fantanstic performances using LightGBM. Parameters tuned in the model controls different aspects of the model, for more information about the parameters visit [here](https://lightgbm.readthedocs.io/en/latest/Parameters-Tuning.html). Specifically,
 
@@ -119,6 +148,3 @@ Additional hyperdrive config settings are,
 ## Screen Recording
 
 The recorded problem solving process could be found [here](https://youtu.be/be9q4-L7dUk)
-
-## Standout Suggestions
-*TODO (Optional):* This is where you can provide information about any standout suggestions that you have attempted.
