@@ -58,7 +58,8 @@ The dataset is from Kaggle, originally used as the competition dataset of the 20
 For each advertisement, predict whether the customer is going to click on it in the near future.
 
 ### Access
-*TODO*: Explain how you are accessing the data in your workspace.
+
+The data is obtained programmatically using Kaggle's API hosted in a shell script. Since the dataset is rather big (6 GB), only a randomly sampled subset of the full dataset will be used as the training/test data. ALl the 
 
 ## Automated ML
 *TODO*: Give an overview of the `automl` settings and configuration you used for this experiment
