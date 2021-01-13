@@ -1,5 +1,5 @@
 export KAGGLE_KEY=""
-export KAGGLE_USERNAME="bowenchen184"
+export KAGGLE_USERNAME=""
 
 pip install kaggle
 
