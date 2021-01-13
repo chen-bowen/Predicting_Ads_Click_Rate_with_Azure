@@ -13,10 +13,49 @@ To set up the project in Azure, perform the following 3 simple steps
 ## Dataset
 
 ### Overview
-*TODO*: Explain about the data you are using and where you got it from.
+
+The dataset is from Kaggle, originally used as the competition dataset of the 2020 DIGIX CTR Predicition competition. The full dataset is 6GB, contains 36 columns (some masked) describing advertising behavior for seven consecutive days. Specifically, the dataset includes
+
+* **label** - Whether the customer clicked on an advertisement
+* **uid** - Unique user ID after data anonymization
+* **task_id** - Unique ID of an ad task
+* **adv_id** - Unique ID of an ad material
+* **creat_type_cd** - Unique ID of an ad creative type
+* **adv_prim_id** - Advertiser ID of an ad task
+* dev_id - Developer ID of an ad task
+* **inter_typ_cd** - Display form of an ad material
+* **slot_id** - Ad slot ID
+* **spread_app_id** - App ID of an ad task
+* **tags** - App tag of an ad task
+* **app_first_class** - App level-1 category of an ad task
+* **app_second_class** - App level-2 category of an ad task
+* **age** - User age
+* **city** - Resident city of a user
+* **city_rank** - Level of the resident city of a user
+* **device_name** - Phone model used by a user
+* **device_size** - Size of the phone used by a user
+* **career** - User occupation
+* **gender** - User gender
+* **net_type** - Network status when a behavior occurs
+* **residence** - Resident province of a user
+* **his_app_size** - App storage size
+* **his_on_shelf_time** - Release time
+* **app_score** - App rating score
+* **emui_dev** - EMUI version
+* **list_time** - Model release time
+* **device_price** - Device price
+* **up_life_duration** - HUAWEI ID lifecycle
+* **up_membership_grade** - Service membership level
+* **membership_life_duration** - Membership lifecycle
+* **consume_purchase** - Paid user tag
+* **communication_onlinerate** - Active time by mobile phone
+* **communication_avgonline_30d** - Daily active time by mobile phone
+* **indu_name** - Ad industry information
+* **pt_d** - Date when a behavior occurs
 
 ### Task
-*TODO*: Explain the task you are going to be solving with this dataset and the features you will be using for it.
+
+For each advertisement, predict whether the customer is going to click on it in the near future.
 
 ### Access
 *TODO*: Explain how you are accessing the data in your workspace.
