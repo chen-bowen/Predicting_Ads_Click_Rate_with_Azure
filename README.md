@@ -59,7 +59,20 @@ For each advertisement, predict whether the customer is going to click on it in 
 
 ### Access
 
-The data is obtained programmatically using Kaggle's API hosted in a shell script. Since the dataset is rather big (6 GB), only a randomly sampled subset of the full dataset will be used as the training/test data. ALl the 
+The data is obtained programmatically using Kaggle's API hosted in the shell script `fetch_dataset.sh`. Since the dataset is rather big (6 GB), only a randomly sampled subset of the full dataset will be used as the training/test data. The general steps in the shell scripts involves
+
+1. Install kaggle CLI tools
+2. Download dataset from Kaggle
+3. Unzip the dataset
+4. Remove extra files - the downloaded zip file, 2 extra test data csvs
+5. Rename train_data folder into data
+
+2 additional steps performed before registering the dataset,
+
+* After the train_data.csv has been downloaded, it will be iteratively read into the workspace, while only 1% of each chunk is saved and concatenated into the training dataframe
+* Click history generation is performed on dataset, counting the aggregated click statistics for a single advertisment for the past n days. 
+
+These 2 steps brings the total number of columns in this dataset to 66.
 
 ## Automated ML
 *TODO*: Give an overview of the `automl` settings and configuration you used for this experiment
