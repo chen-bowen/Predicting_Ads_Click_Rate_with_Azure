@@ -95,10 +95,8 @@ These 2 steps brings the total number of columns in this dataset to 66.
 *TODO*: Give an overview of the deployed model and instructions on how to query the endpoint with a sample input.
 
 ## Screen Recording
-*TODO* Provide a link to a screen recording of the project in action. Remember that the screencast should demonstrate:
-- A working model
-- Demo of the deployed  model
-- Demo of a sample request sent to the endpoint and its response
+
+The recorded problem solving process could be found [here](https://youtu.be/be9q4-L7dUk)
 
 ## Standout Suggestions
 *TODO (Optional):* This is where you can provide information about any standout suggestions that you have attempted.
