@@ -316,7 +316,7 @@ To deploy the best model from the hyperdrive run, follow the following steps
 
 For details please find in `production_deploy_to_aks.ipynb`
 
-Once the model is deployed, the webservice in the endpoint section from the defined name will show status as active
+Once the model is deployed, the webservice in the endpoint section from the defined name will show status as "Healthy"
 
 <img src="images/active_endpoint.png">
 
