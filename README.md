@@ -498,6 +498,11 @@ except urllib.error.HTTPError as error:
 
 ```
 This will send 2 sets of test data to the service, which will receive reponses as a list of probabilities predicted that the ads will be clicked in the future.
+The response will be a bite string list that contains 2 floats between 0 and 1. More metadata could be added later.
+
+```python
+b'[0.441306768, 0.405676435]'
+```
 
 ## Screen Recording
 
