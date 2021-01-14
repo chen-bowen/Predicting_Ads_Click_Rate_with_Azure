@@ -99,9 +99,15 @@ When configuring the autoML experiment, parameters are chosen to be more restric
 * `n_cross_validations` set to 5 for autoML to test performances across 5 different folds to make the performance measure more robust
 
 ### Results
-*TODO*: What are the results you got with your automated ML model? What were the parameters of the model? How could you have improved it?
 
-*TODO* Remeber to provide screenshots of the `RunDetails` widget as well as a screenshot of the best model trained with it's parameters.
+The best model obtained by the automated machine learning experiment is a stack ensemble model of 2 lightGBM trees and 3 xgboost trees, each with different sets of parameters. Its AUC_weighted metric sits at 0.7116. To improve on this performance would require some additional feature engineerings. Using additional data does not guarantee better performances. Specific run details are shown below in the screenshot
+
+<img src="images/run_details_automl.png">
+
+The best model run is shown as below
+
+<img src="images/best_model_automl.png">
+
 
 ## Hyperparameter Tuning
 
