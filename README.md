@@ -104,7 +104,7 @@ The best model obtained by the automated machine learning experiment is a stack 
 
 <img src="images/rundetails_automl.png">
 
-The best model run is shown as below
+The best model run and its run id is shown as below
 
 <img src="images/best_model_automl.png">
 
@@ -283,7 +283,7 @@ The best hyperdrive run produced a model that has 0.726 weighted AUC. The additi
 
 <img src="images/rundetails_HD.png">
 
-The best run and its hyperparameters are shown below
+The best run, its run id and hyperparameters are shown below
 
 <img src="images/best_run_HD.png">
 
