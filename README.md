@@ -304,6 +304,201 @@ LGBMClassifier(boosting='gbdt', boosting_type='gbdt', class_weight=None,
 ## Model Deployment
 *TODO*: Give an overview of the deployed model and instructions on how to query the endpoint with a sample input.
 
+To deploy the best model from the hyperdrive run, follow the following steps
+
+1. retrieve the target model
+2. creating the environment
+3. create the entry script for scoring
+4. create the inference config
+5. provisioning the AKS cluster (one time action) 
+6. deploying the service to the cluster 
+7. test and delete the service, image and model
+
+For details please find in `production_deploy_to_aks.ipynb`
+
+Once the model is deployed, the webservice in the endpoint section from the defined name will show status as active
+
+<img src="images/active_endpoint.png">
+
+From the consume tab, a sample script to send a request to the service is shown, for this particular service, use the following script
+
+```python
+
+import urllib.request
+import json
+import os
+import ssl
+
+def allowSelfSignedHttps(allowed):
+    # bypass the server certificate verification on client side
+    if allowed and not os.environ.get('PYTHONHTTPSVERIFY', '') and getattr(ssl, '_create_unverified_context', None):
+        ssl._create_default_https_context = ssl._create_unverified_context
+
+allowSelfSignedHttps(True) # this line is needed if you use self-signed certificate in your scoring service.
+
+# 2 lines of data
+data = [
+    {
+        "uid": 1391930,
+        "task_id": 3481,
+        "adv_id": 3984,
+        "creat_type_cd": 6,
+        "adv_prim_id": 150,
+        "dev_id": 17,
+        "inter_type_cd": 5,
+        "slot_id": 18,
+        "spread_app_id": 11,
+        "tags": 39,
+        "app_first_class": 4,
+        "app_second_class": 17,
+        "age": 7,
+        "city": 161,
+        "city_rank": 3,
+        "device_name": 65,
+        "device_size": 141,
+        "career": 9,
+        "gender": 2,
+        "net_type": 2,
+        "residence": 18,
+        "his_app_size": 6,
+        "his_on_shelf_time": 3,
+        "app_score": 2,
+        "emui_dev": 14,
+        "list_time": 10,
+        "device_price": 2,
+        "up_life_duration": 20,
+        "up_membership_grade": -1,
+        "membership_life_duration": -1,
+        "consume_purchase": 2,
+        "communication_onlinerate": "0^1^2^3^4^5^6^7^8^9^10^11^12^13^14^15^16^17^18^19^20^21^22^23",
+        "communication_avgonline_30d": 13,
+        "indu_name": 36,
+        "pt_d": 1,
+        "uid_prev_1_day_ctr": 0.0,
+        "uid_prev_2_day_ctr": 0.0,
+        "uid_prev_3_day_ctr": 0.0,
+        "uid_prev_4_day_ctr": 0.0,
+        "uid_prev_5_day_ctr": 0.0,
+        "uid_prev_6_day_ctr": 0.0,
+        "task_id_prev_1_day_ctr": 0.0,
+        "task_id_prev_2_day_ctr": 0.0,
+        "task_id_prev_3_day_ctr": 0.0,
+        "task_id_prev_4_day_ctr": 0.0,
+        "task_id_prev_5_day_ctr": 0.0,
+        "task_id_prev_6_day_ctr": 0.0,
+        "adv_id_prev_1_day_ctr": 0.0,
+        "adv_id_prev_2_day_ctr": 0.0,
+        "adv_id_prev_3_day_ctr": 0.0,
+        "adv_id_prev_4_day_ctr": 0.0,
+        "adv_id_prev_5_day_ctr": 0.0,
+        "adv_id_prev_6_day_ctr": 0.0,
+        "adv_prim_id_prev_1_day_ctr": 0.0,
+        "adv_prim_id_prev_2_day_ctr": 0.0,
+        "adv_prim_id_prev_3_day_ctr": 0.0,
+        "adv_prim_id_prev_4_day_ctr": 0.0,
+        "adv_prim_id_prev_5_day_ctr": 0.0,
+        "adv_prim_id_prev_6_day_ctr": 0.0,
+        "spread_app_id_prev_1_day_ctr": 0.0,
+        "spread_app_id_prev_2_day_ctr": 0.0,
+        "spread_app_id_prev_3_day_ctr": 0.0,
+        "spread_app_id_prev_4_day_ctr": 0.0,
+        "spread_app_id_prev_5_day_ctr": 0.0,
+        "spread_app_id_prev_6_day_ctr": 0.0,
+    },
+    {
+        "uid": 2220385,
+        "task_id": 3401,
+        "adv_id": 1766,
+        "creat_type_cd": 7,
+        "adv_prim_id": 156,
+        "dev_id": 56,
+        "inter_type_cd": 5,
+        "slot_id": 16,
+        "spread_app_id": 58,
+        "tags": 37,
+        "app_first_class": 4,
+        "app_second_class": 21,
+        "age": 7,
+        "city": 103,
+        "city_rank": 4,
+        "device_name": 38,
+        "device_size": 162,
+        "career": 9,
+        "gender": 2,
+        "net_type": 2,
+        "residence": 39,
+        "his_app_size": 14,
+        "his_on_shelf_time": 3,
+        "app_score": 2,
+        "emui_dev": 20,
+        "list_time": 4,
+        "device_price": 4,
+        "up_life_duration": 20,
+        "up_membership_grade": 1,
+        "membership_life_duration": -1,
+        "consume_purchase": 2,
+        "communication_onlinerate": "7^8^9^10^11^12^13^14^15^16^17^18^19^20^21^22^23",
+        "communication_avgonline_30d": 11,
+        "indu_name": 17,
+        "pt_d": 1,
+        "uid_prev_1_day_ctr": 0.0,
+        "uid_prev_2_day_ctr": 0.0,
+        "uid_prev_3_day_ctr": 0.0,
+        "uid_prev_4_day_ctr": 0.0,
+        "uid_prev_5_day_ctr": 0.0,
+        "uid_prev_6_day_ctr": 0.0,
+        "task_id_prev_1_day_ctr": 0.0,
+        "task_id_prev_2_day_ctr": 0.0,
+        "task_id_prev_3_day_ctr": 0.0,
+        "task_id_prev_4_day_ctr": 0.0,
+        "task_id_prev_5_day_ctr": 0.0,
+        "task_id_prev_6_day_ctr": 0.0,
+        "adv_id_prev_1_day_ctr": 0.0,
+        "adv_id_prev_2_day_ctr": 0.0,
+        "adv_id_prev_3_day_ctr": 0.0,
+        "adv_id_prev_4_day_ctr": 0.0,
+        "adv_id_prev_5_day_ctr": 0.0,
+        "adv_id_prev_6_day_ctr": 0.0,
+        "adv_prim_id_prev_1_day_ctr": 0.0,
+        "adv_prim_id_prev_2_day_ctr": 0.0,
+        "adv_prim_id_prev_3_day_ctr": 0.0,
+        "adv_prim_id_prev_4_day_ctr": 0.0,
+        "adv_prim_id_prev_5_day_ctr": 0.0,
+        "adv_prim_id_prev_6_day_ctr": 0.0,
+        "spread_app_id_prev_1_day_ctr": 0.0,
+        "spread_app_id_prev_2_day_ctr": 0.0,
+        "spread_app_id_prev_3_day_ctr": 0.0,
+        "spread_app_id_prev_4_day_ctr": 0.0,
+        "spread_app_id_prev_5_day_ctr": 0.0,
+        "spread_app_id_prev_6_day_ctr": 0.0
+    }
+]
+
+body = str.encode(json.dumps(data))
+
+deployed_webservice = Webservice(ws, 'ctr-prediction-service-1')
+url = deployed_webservice.scoring_uri
+api_key = deployed_webservice.get_keys()[0]
+
+headers = {'Content-Type':'application/json', 'Authorization':('Bearer '+ api_key)}
+
+req = urllib.request.Request(url, body, headers)
+
+try:
+    response = urllib.request.urlopen(req)
+
+    result = response.read()
+    print(result)
+except urllib.error.HTTPError as error:
+    print("The request failed with status code: " + str(error.code))
+
+    # Print the headers - they include the requert ID and the timestamp, which are useful for debugging the failure
+    print(error.info())
+    print(json.loads(error.read().decode("utf8", 'ignore')))
+
+```
+This will send 2 sets of test data to the service, which will receive reponses as a list of probabilities predicted that the ads will be clicked in the future.
+
 ## Screen Recording
 
-The recorded problem solving process could be found [here](https://youtu.be/be9q4-L7dUk)
+Want to see the process in action? The recorded problem solving process could be found [here](https://youtu.be/be9q4-L7dUk)
