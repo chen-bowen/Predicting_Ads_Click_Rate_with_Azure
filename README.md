@@ -102,7 +102,7 @@ When configuring the autoML experiment, parameters are chosen to be more restric
 
 The best model obtained by the automated machine learning experiment is a stack ensemble model of 2 lightGBM, 3 xgboost and 2 logistic regression models, each with different sets of parameters, with a logsitic regression on top as the meta learner. Its AUC_weighted metric sits at 0.7116. To improve on this performance would require some additional feature engineerings. Using additional data does not guarantee better performances. Putting the feature engineering steps inside a pipeline with AutoML step will dramatically improve the efficiency of this machine learning solution. Specific run details are shown below in the screenshot
 
-<img src="images/run_details_automl.png">
+<img src="images/rundetails_automl.png">
 
 The best model run is shown as below
 
