@@ -100,7 +100,7 @@ When configuring the autoML experiment, parameters are chosen to be more restric
 
 ### Results
 
-The best model obtained by the automated machine learning experiment is a stack ensemble model of 2 lightGBM trees and 3 xgboost trees, each with different sets of parameters. Its AUC_weighted metric sits at 0.7116. To improve on this performance would require some additional feature engineerings. Using additional data does not guarantee better performances. Specific run details are shown below in the screenshot
+The best model obtained by the automated machine learning experiment is a stack ensemble model of 2 lightGBM, 3 xgboost and 2 logistic regression models, each with different sets of parameters, with a logsitic regression on top as the meta learner. Its AUC_weighted metric sits at 0.7116. To improve on this performance would require some additional feature engineerings. Using additional data does not guarantee better performances. Putting the feature engineering steps inside a pipeline with AutoML step will dramatically improve the efficiency of this machine learning solution. Specific run details are shown below in the screenshot
 
 <img src="images/run_details_automl.png">
 
@@ -108,6 +108,139 @@ The best model run is shown as below
 
 <img src="images/best_model_automl.png">
 
+specific best model architecture's base learners and their parameters are the following
+
+```python
+'0': Pipeline(memory=None,
+          steps=[('maxabsscaler', MaxAbsScaler(copy=True)),
+                 ('lightgbmclassifier',
+                  LightGBMClassifier(boosting_type='gbdt', class_weight=None,
+                                     colsample_bytree=1.0,
+                                     importance_type='split', learning_rate=0.1,
+                                     max_depth=-1, min_child_samples=20,
+                                     min_child_weight=0.001, min_split_gain=0.0,
+                                     n_estimators=100, n_jobs=1, num_leaves=31,
+                                     objective=None, random_state=None,
+                                     reg_alpha=0.0, reg_lambda=0.0, silent=True,
+                                     subsample=1.0, subsample_for_bin=200000,
+                                     subsample_freq=0, verbose=-10))],
+          verbose=False),
+ '19': Pipeline(memory=None,
+          steps=[('standardscalerwrapper',
+                  <azureml.automl.runtime.shared.model_wrappers.StandardScalerWrapper object at 0x7fbcfbe6c240>),
+                 ('xgboostclassifier',
+                  XGBoostClassifier(base_score=0.5, booster='gbtree',
+                                    colsample_bylevel=1, colsample_bynode=1,
+                                    colsample_bytree=1, eta=0.001, gamma=0.1,
+                                    grow_policy='lossguide', learning_rate=0.1,
+                                    max_bin=1023, max_delta_step=0, max_depth=0,
+                                    max_leaves=63, min_child_weight=1,
+                                    missing=nan, n_estimators=25, n_jobs=1,
+                                    nthread=None, objective='reg:logistic',
+                                    random_state=0, reg_alpha=0,
+                                    reg_lambda=1.7708333333333335,
+                                    scale_pos_weight=1, seed=None, silent=None,
+                                    subsample=0.9, tree_method='hist',
+                                    verbose=-10, verbosity=0))],
+          verbose=False),
+ '20': Pipeline(memory=None,
+          steps=[('maxabsscaler', MaxAbsScaler(copy=True)),
+                 ('lightgbmclassifier',
+                  LightGBMClassifier(boosting_type='gbdt', class_weight=None,
+                                     colsample_bytree=0.8911111111111111,
+                                     importance_type='split',
+                                     learning_rate=0.05263631578947369,
+                                     max_bin=110, max_depth=4,
+                                     min_child_samples=693, min_child_weight=8,
+                                     min_split_gain=0.5263157894736842,
+                                     n_estimators=200, n_jobs=1, num_leaves=215,
+                                     objective=None, random_state=None,
+                                     reg_alpha=0, reg_lambda=0.2631578947368421,
+                                     silent=True, subsample=0.3468421052631579,
+                                     subsample_for_bin=200000, subsample_freq=0,
+                                     verbose=-10))],
+          verbose=False),
+ '23': Pipeline(memory=None,
+          steps=[('standardscalerwrapper',
+                  <azureml.automl.runtime.shared.model_wrappers.StandardScalerWrapper object at 0x7fbcfbdfd0f0>),
+                 ('logisticregression',
+                  LogisticRegression(C=0.12648552168552957,
+                                     class_weight='balanced', dual=False,
+                                     fit_intercept=True, intercept_scaling=1,
+                                     l1_ratio=None, max_iter=100,
+                                     multi_class='ovr', n_jobs=1, penalty='l2',
+                                     random_state=None, solver='newton-cg',
+                                     tol=0.0001, verbose=0, warm_start=False))],
+          verbose=False),
+ '1': Pipeline(memory=None,
+          steps=[('maxabsscaler', MaxAbsScaler(copy=True)),
+                 ('xgboostclassifier',
+                  XGBoostClassifier(base_score=0.5, booster='gbtree',
+                                    colsample_bylevel=1, colsample_bynode=1,
+                                    colsample_bytree=1, gamma=0,
+                                    learning_rate=0.1, max_delta_step=0,
+                                    max_depth=3, min_child_weight=1, missing=nan,
+                                    n_estimators=100, n_jobs=1, nthread=None,
+                                    objective='binary:logistic', random_state=0,
+                                    reg_alpha=0, reg_lambda=1,
+                                    scale_pos_weight=1, seed=None, silent=None,
+                                    subsample=1, tree_method='auto', verbose=-10,
+                                    verbosity=0))],
+          verbose=False),
+ '22': Pipeline(memory=None,
+          steps=[('standardscalerwrapper',
+                  <azureml.automl.runtime.shared.model_wrappers.StandardScalerWrapper object at 0x7fbcfbe04860>),
+                 ('logisticregression',
+                  LogisticRegression(C=0.2682695795279725,
+                                     class_weight='balanced', dual=False,
+                                     fit_intercept=True, intercept_scaling=1,
+                                     l1_ratio=None, max_iter=100,
+                                     multi_class='ovr', n_jobs=1, penalty='l2',
+                                     random_state=None, solver='saga',
+                                     tol=0.0001, verbose=0, warm_start=False))],
+          verbose=False),
+ '21': Pipeline(memory=None,
+          steps=[('standardscalerwrapper',
+                  <azureml.automl.runtime.shared.model_wrappers.StandardScalerWrapper object at 0x7fbcfbe080b8>),
+                 ('xgboostclassifier',
+                  XGBoostClassifier(base_score=0.5, booster='gbtree',
+                                    colsample_bylevel=1, colsample_bynode=1,
+                                    colsample_bytree=0.6, eta=0.1, gamma=0,
+                                    grow_policy='lossguide', learning_rate=0.1,
+                                    max_bin=63, max_delta_step=0, max_depth=6,
+                                    max_leaves=0, min_child_weight=1,
+                                    missing=nan, n_estimators=800, n_jobs=1,
+                                    nthread=None, objective='reg:logistic',
+                                    random_state=0, reg_alpha=1.1458333333333335,
+                                    reg_lambda=0.5208333333333334,
+                                    scale_pos_weight=1, seed=None, silent=None,
+                                    subsample=0.5, tree_method='hist',
+                                    verbose=-10, verbosity=0))],
+          verbose=False),
+```
+
+The metalearner's architecture and parameters are the following
+
+```python
+
+LogisticRegressionCV(Cs=10,
+                    class_weight=None,
+                    cv=None, dual=False,
+                    fit_intercept=True,
+                    intercept_scaling=1.0,
+                    l1_ratios=None,
+                    max_iter=100,
+                    multi_class='auto',
+                    n_jobs=None,
+                    penalty='l2',
+                    random_state=None,
+                    refit=True,
+                    scoring=<azureml.automl.runtime.stack_ensemble_base.Scorer object at 0x7fbcfbe11400>,
+                    solver='lbfgs',
+                    tol=0.0001,
+                    verbose=0),
+                    training_cv_folds=5)
+```
 
 ## Hyperparameter Tuning
 
@@ -146,7 +279,27 @@ Additional hyperdrive config settings are,
 ### Results
 *TODO*: What are the results you got with your model? What were the parameters of the model? How could you have improved it?
 
-*TODO* Remeber to provide screenshots of the `RunDetails` widget as well as a screenshot of the best model trained with it's parameters.
+The best hyperdrive run produced a model that has 0.726 weighted AUC. The additional feature engineering performed in the `train.py` has improved the model performance, making it superior than all the automated machine learning runs. Additional feature engineering experiment could even push the model to be better.Same as autoML, this who process could be wrapped inside a pipeline. Specific run details are shown below in the screenshot
+
+<img src="images/rundetails_HD.png">
+
+The best run and its hyperparameters are shown below
+
+<img src="images/best_run_HD.png">
+
+Specifically, the best model run's achitecture and parameters is
+
+```python
+LGBMClassifier(boosting='gbdt', boosting_type='gbdt', class_weight=None,
+               colsample_bytree=1.0, importance_type='split',
+               lambda_l1=37.29947430112857, lambda_l2=37.885765652758316,
+               learning_rate=0.19930802226875916, max_bin=421, max_depth=243,
+               min_child_samples=20, min_child_weight=0.001, min_split_gain=0.0,
+               n_estimators=100, n_jobs=-1, num_leaves=121, objective=None,
+               path_smooth=38.75810723080655, random_state=None, reg_alpha=0.0,
+               reg_lambda=0.0, silent=True, subsample=1.0,
+               subsample_for_bin=200000, subsample_freq=0)
+```
 
 ## Model Deployment
 *TODO*: Give an overview of the deployed model and instructions on how to query the endpoint with a sample input.
